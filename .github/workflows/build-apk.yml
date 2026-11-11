@@ -2,13 +2,7 @@ name: Build Android APK
 
 on:
   push:
-    branches:
-      - main
-      - master
   pull_request:
-    branches:
-      - main
-      - master
   workflow_dispatch:
 
 jobs:
@@ -30,14 +24,14 @@ jobs:
           java-version: '21'
           cache: 'gradle'
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: 'platforms;android-36 build-tools;36.0.0'
+
       - name: Accept Android SDK Licenses
         run: |
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses 2>/dev/null || true
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          cache-disabled: false
 
       - name: Prepare Environment and Keystores
         run: |
@@ -51,10 +45,15 @@ jobs:
             base64 -d debug.keystore.base64 > debug.keystore
           fi
 
-          # Ensure release keystore is present
+          # Ensure upload keystore exists for signing verification
           if [ ! -f my-upload-key.jks ]; then
             keytool -genkeypair -v -keystore my-upload-key.jks -alias upload -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Telegram, OU=App, O=AIStudio, L=City, S=State, C=US"
           fi
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-disabled: false
 
       - name: Build Debug APK
         env:
