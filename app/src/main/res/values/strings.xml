@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Telegram</string>
+    <string name="chats">المحادثات</string>
+    <string name="all_chats">الكل</string>
+    <string name="personal">خاص</string>
+    <string name="channels">قنوات</string>
+    <string name="groups">مجموعات</string>
+    <string name="bots">بوتات</string>
+    <string name="saved_messages">الرسائل المحفوظة</string>
+    <string name="new_group">مجموعة جديدة</string>
+    <string name="new_channel">قناة جديدة</string>
+    <string name="contacts">جهات الاتصال</string>
+    <string name="calls">المكالمات</string>
+    <string name="people_nearby">الأشخاص القريبون</string>
+    <string name="settings">الإعدادات</string>
+    <string name="invite_friends">دعوة الأصدقاء</string>
+    <string name="telegram_features">ميزات تلغرام</string>
+    <string name="search_hint">بحث</string>
+    <string name="message_hint">الرسالة…</string>
+    <string name="online">متصل الآن</string>
+    <string name="last_seen_recently">آخر ظهور كان قريباً</string>
+    <string name="typing">يكتب الآن…</string>
+    <string name="members">%1$d عضواً</string>
+    <string name="subscribers">%1$d مشتركاً</string>
+</resources>
