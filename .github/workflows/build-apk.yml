@@ -27,7 +27,7 @@ jobs:
       - name: Accept Android SDK Licenses & Install API 36
         run: |
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses 2>/dev/null || true
-          $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-36" "build-tools;36.0.0"
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager "platforms;android-36" "build-tools;36.0.0" 2>/dev/null || true
 
       - name: Prepare Environment and Keystores
         run: |
@@ -50,11 +50,13 @@ jobs:
         env:
           STORE_PASSWORD: android
           KEY_PASSWORD: android
-        run: ./gradlew assembleDebug --no-daemon --no-configuration-cache --stacktrace
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK Artifact
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: Telegram-APK
-          path: app/build/outputs/apk/debug/*.apk
+          path: app/build/outputs/apk/**/*.apk
+          if-no-files-found: warn
           retention-days: 30
