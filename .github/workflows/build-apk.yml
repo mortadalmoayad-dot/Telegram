@@ -24,6 +24,11 @@ jobs:
           java-version: '21'
           cache: 'gradle'
 
+      - name: Install Xvfb (Virtual Framebuffer)
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y xvfb
+
       - name: Accept Android SDK Licenses & Install API 36
         run: |
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses 2>/dev/null || true
@@ -46,11 +51,11 @@ jobs:
             keytool -genkeypair -v -keystore my-upload-key.jks -alias upload -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Telegram, OU=App, O=AIStudio, L=City, S=State, C=US"
           fi
 
-      - name: Build Debug APK
+      - name: Build Debug APK with Xvfb
         env:
           STORE_PASSWORD: android
           KEY_PASSWORD: android
-        run: ./gradlew assembleDebug --no-daemon --stacktrace
+        run: xvfb-run --auto-servernum ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK Artifact
         if: success()
